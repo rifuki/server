@@ -2,6 +2,15 @@
 .env
 .env.local
 
+# Docker Compose overrides
+docker-compose.override.yaml
+docker-compose.override.yml
+docker-compose.prod.yaml
+docker-compose.prod.yml
+
+# Runtime generated
+letsencrypt/
+
 # IDE
 .idea/
 .vscode/
