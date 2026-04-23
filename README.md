@@ -38,14 +38,22 @@ infra/
 
 ## Configuration
 
-Copy `.env.example` to `.env` and customize if needed:
-
+**Environment variables:**
+Copy `.env.example` to `.env` for custom variables:
 ```bash
 cp .env.example .env
 ```
 
-**Available options:**
-- `COMPOSE_FILE` — Override default compose file (e.g., `docker-compose.prod.yaml`)
+**Local overrides:**
+Create `docker-compose.override.yaml` for local customization (gitignored):
+```yaml
+services:
+  traefik:
+    environment:
+      - CUSTOM_VAR=value
+```
+
+Docker Compose automatically merges `docker-compose.yaml` + `docker-compose.override.yaml`.
 
 ## Deploy New Project
 
