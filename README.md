@@ -30,10 +30,22 @@ graph TB
 
 ```
 infra/
+├── .env.example         # Environment variables template
 ├── docker-compose.yaml  # Traefik + Portainer
 ├── traefik.yaml         # Traefik static config
 └── setup.sh             # One-command bootstrap
 ```
+
+## Configuration
+
+Copy `.env.example` to `.env` and customize if needed:
+
+```bash
+cp .env.example .env
+```
+
+**Available options:**
+- `COMPOSE_FILE` — Override default compose file (e.g., `docker-compose.prod.yaml`)
 
 ## Deploy New Project
 
