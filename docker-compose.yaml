@@ -1,4 +1,14 @@
 services:
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      CONTAINERS: 1
+    userns_mode: "host"
+    networks:
+      - socket-proxy
+
   traefik:
     image: traefik:latest
     container_name: traefik
@@ -6,20 +16,22 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "127.0.0.1:8081:8080"  # Dashboard (localhost only, access via SSH tunnel)
+      - "127.0.0.1:8081:8080" # Dashboard (localhost only, access via SSH tunnel)
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
       - ./traefik.yaml:/etc/traefik/traefik.yml:ro
     environment:
       - DOCKER_API_VERSION=1.40
     networks:
       - traefik-public
+      - socket-proxy
 
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
+    userns_mode: "host"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer-data:/data
@@ -39,3 +51,7 @@ networks:
   traefik-public:
     name: traefik-public
     driver: bridge
+  socket-proxy:
+    name: socket-proxy
+    driver: bridge
+    internal: true

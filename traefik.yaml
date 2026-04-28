@@ -16,6 +16,7 @@ entryPoints:
 
 providers:
   docker:
+    endpoint: "tcp://socket-proxy:2375"
     exposedByDefault: false
     network: traefik-public
     watch: true
@@ -31,3 +32,4 @@ log:
   level: INFO
 
 accessLog: {}
+
